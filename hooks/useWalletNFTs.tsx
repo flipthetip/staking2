@@ -10,6 +10,7 @@ export type NFT = {
   onchainMetadata: programs.metadata.MetadataData
   externalMetadata: {
     attributes: Array<any>
+    symbol: string
     collection: any
     description: string
     edition: number
@@ -24,6 +25,9 @@ export type NFT = {
     seller_fee_basis_points: number
   }
 }
+const symb = "tshc"
+
+
 
 const useWalletNFTs = () => {
   const { connection } = useConnection()

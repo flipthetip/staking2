@@ -58,7 +58,7 @@ export async function getNFTsByOwner(
   const tokens = tokenAccounts.value
     .filter((tokenAccount) => {
       const amount = tokenAccount.account.data.parsed.info.tokenAmount
-
+      
       return amount.decimals === 0 && amount.uiAmount === 1
     })
     .map((tokenAccount) => {

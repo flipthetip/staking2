@@ -201,6 +201,8 @@ const useGemFarmStaking = (farmId: string) => {
     console.log("[Staking Hook] deposit done", txSig)
 
     return txSig
+
+    
   }
 
   const withdrawGem = async (mint: PublicKey) => {
@@ -235,6 +237,9 @@ const useGemFarmStaking = (farmId: string) => {
         creator,
         nft.pubkey
       )
+
+
+
     }
 
     await fetchFarmerAccount(gemFarmClient, gemBankClient)
@@ -244,6 +249,8 @@ const useGemFarmStaking = (farmId: string) => {
 
     setSelectedVaultItems([])
     setSelectedWalletItems([])
+
+    window.location.reload();
   }
 
   const handleMoveToWalletButtonClick = async () => {
@@ -255,6 +262,7 @@ const useGemFarmStaking = (farmId: string) => {
       await withdrawGem(new PublicKey(nft.onchainMetadata.mint))
     }
 
+
     await fetchFarmerAccount(gemFarmClient, gemBankClient)
     // await refetchNFTs()
 
@@ -262,6 +270,8 @@ const useGemFarmStaking = (farmId: string) => {
 
     setSelectedVaultItems([])
     setSelectedWalletItems([])
+
+    window.location.reload();
   }
 
   const handleStakeButtonClick = async () => {
@@ -278,6 +288,8 @@ const useGemFarmStaking = (farmId: string) => {
 
     setFeedbackStatus("")
     // selectedNFTs.value = [];
+
+    window.location.reload();
   }
 
   const handleUnstakeButtonClick = async () => {
@@ -292,8 +304,11 @@ const useGemFarmStaking = (farmId: string) => {
     await fetchFarmerAccount(gemFarmClient, gemBankClient)
     // await refetchNFTs()
 
+
     setFeedbackStatus("")
     // selectedNFTs.value = [];
+
+    window.location.reload();
   }
 
   const handleClaimButtonClick = async () => {
@@ -314,6 +329,8 @@ const useGemFarmStaking = (farmId: string) => {
 
     setFeedbackStatus("")
     // await fetchFarmer();
+
+    window.location.reload();
   }
 
   const handleInitStakingButtonClick = async () => {
@@ -331,6 +348,8 @@ const useGemFarmStaking = (farmId: string) => {
     // await refetchNFTs()
 
     setFeedbackStatus("")
+
+    window.location.reload();
   }
 
   const handleRefreshRewardsButtonClick = async () => {
@@ -349,6 +368,8 @@ const useGemFarmStaking = (farmId: string) => {
     // await refetchNFTs()
 
     setFeedbackStatus("")
+
+    window.location.reload();
   }
 
   const isLocked = farmerVaultAccount?.locked

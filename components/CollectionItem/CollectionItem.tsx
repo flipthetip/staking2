@@ -47,6 +47,7 @@ const CollectionItem = (props: Props) => {
         transition: "all .125s linear",
         outline: "none",
         cursor: onClick ? "pointer" : "auto",
+        minWidth: "100%",
 
         "&:hover, &:focus, > .toggle-menu:focus": {
           "> .toggle-menu": {
@@ -147,12 +148,15 @@ const CollectionItem = (props: Props) => {
         variant="small"
         sx={{
           overflow: "hidden",
-          whiteSpace: "nowrap",
+          whiteSpace: "normal",
           textOverflow: "ellipsis",
           padding: "0 .8rem",
           mt: ".8rem",
+          fontWeight: "bold",
+          textAlign: "center"
         }}
       >
+        
         {externalMetadata.name}
         {/* <br />
     <a
@@ -163,6 +167,7 @@ const CollectionItem = (props: Props) => {
       {onchainMetadata.metaData.mint}
     </a> */}
       </Text>
+
     </Flex>
   )
 }

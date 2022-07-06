@@ -23,6 +23,7 @@ const theme: Theme = {
   ...base,
   colors: {
     background: "rgb(4, 4, 3)",
+    backgroundImage: "/images/sana.png",
     text: "rgb(226, 217, 211)",
     primary: "rgb(48, 114, 180, .7)",
     primaryGradient: getGradient("yellow"),

@@ -35,7 +35,8 @@ const StakePage = () => {
     handleInitStakingButtonClick,
     handleRefreshRewardsButtonClick,
   } = useGemFarmStaking(farmId)
-
+  
+  const [search, setSearch] = useState('')
   const { publicKey } = useWallet()
 
   return (
@@ -174,7 +175,7 @@ const StakePage = () => {
                     }
                   >
                     {farmerStatus === "pendingCooldown"
-                      ? "End cooldown"
+                      ? "End Cooldown"
                       : "Unstake"}
                     
                   </Button>
@@ -237,7 +238,7 @@ const StakePage = () => {
               </TabList>
 
               <TabPanel>
-                
+               
                 {walletNFTs ? (
                   walletNFTs.length ? (
                     <Flex
@@ -247,12 +248,58 @@ const StakePage = () => {
                         alignItems: "center",
                       }}
                     >
+              <input
+              type='text'
+              placeholder='  NFT SEARCH..'
+              className='w-full input input-bordered rounded-none mr-6 ml-10 mb-6 mt-6'
+              onChange={e => setSearch(e.target.value)}
+            /> 
+
+                        {walletNFTs.length && !isLocked ? (
+                        <Text
+                          sx={{
+                            margin: "1rem 0 2rem 0",
+                          }}
+                          variant="medium"
+                        >
+                         <b> SELECT NFTs TO MOVE TO VAULT</b>
+                        </Text>
+                      ) : null}
+
+                      <Text
+                      
+                        sx={{
+                        margin: "1rem 0 2rem 0",
+                          }}
+                          >
+
+                   <b>Selected:</b>{" "}
+                        
+                    {selectedWalletItems && selectedWalletItems.length
+                      ? selectedWalletItems
+                      
+                          .map((NFT) => NFT.onchainMetadata.data.name)
+                          .join(" ,  ")
+                      : null}
+
+
+                      </Text>
+                      {selectedWalletItems?.length && !isLocked ? (
+                          <Button 
+                          backgroundColor="red"
+                          sx={{
+                            margin: "1rem 0 3rem 0",                           
+                          }}
+                          onClick={handleMoveToVaultButtonClick}>
+                            Deposit selected
+                          </Button>
+                        ) : null}
                       <div
                         sx={{
                           display: "grid",
                           gridTemplateColumns:
                             walletNFTs.length > 1 ? "1fr 1fr" : "1fr",
-                          gap: "1.6rem",
+                          gap: ".5rem",
                           alignItems: "center",
 
                           "@media (min-width: 768px)": {
@@ -261,11 +308,17 @@ const StakePage = () => {
                                 ? "1fr 1fr 1fr 1fr 1fr 1fr 1fr"
                                 : walletNFTs.length > 4
                                 ? "1fr 1fr 1fr 1fr 1fr"
-                                : walletNFTs.map(() => "1fr").join(" "),
+                                : walletNFTs
+                                .map(() => "1fr").join(" "),
                           },
                         }}
+                        
                       >
-                        {walletNFTs.map((item) => {
+                        
+                        {walletNFTs
+                        .filter((n) => n.externalMetadata.symbol === 'TSHC')
+                        .filter(n => n.externalMetadata.name.toLowerCase().includes(search.toLowerCase()))
+                        .map((item) => {
                           const isSelected = selectedWalletItems.find(
                             (NFT) =>
                               NFT.onchainMetadata.mint ===
@@ -273,18 +326,21 @@ const StakePage = () => {
                           )
 
                           return (
+                            
                             <CollectionItem
+                            
                               key={item.onchainMetadata.mint}
                               item={item}
                               onClick={
                                 !isLocked ? handleWalletItemClick : () => true
+                                
                               }
                               sx={{
-                                maxWidth: "16rem",
+                                maxWidth: "32rem",
                                 "> img": {
-                                  border: "3px solid transparent",
+                                  border: "6px solid transparent",
                                   borderColor: isSelected
-                                    ? "primary"
+                                    ? "red"
                                     : "transparent",
                                 },
                               }}
@@ -292,31 +348,8 @@ const StakePage = () => {
                           )
                         })}
                       </div>
-                      {walletNFTs.length && !isLocked ? (
-                        <Text
-                          sx={{
-                            margin: "3.2rem 0 .8rem 0",
-                          }}
-                          variant="small"
-                        >
-                          Select NFTs to move them to your Vault.
-                        </Text>
-                      ) : null}
-                      <Text>
-                        {/* Selected:{" "}
-                    {selectedWalletItems && selectedWalletItems.length
-                      ? selectedWalletItems
-                          .map((NFT) => NFT.onchainMetadata.metaData.data.name)
-                          .join(", ")
-                      : null} */}
-                        {selectedWalletItems?.length && !isLocked ? (
-                          <Button 
-                          backgroundColor="red"
-                          onClick={handleMoveToVaultButtonClick}>
-                            Deposit selected
-                          </Button>
-                        ) : null}
-                      </Text>
+
+
                     </Flex>
                   ) : (
                     /** walletNFTs fetched but array is empty, means current wallet has no NFT. */
@@ -358,6 +391,7 @@ const StakePage = () => {
                     {farmerVaultNFTs ? (
                       farmerVaultNFTs.length ? (
                         <Flex
+                        
                           sx={{
                             flexDirection: "column",
                             justifyContent: "center",
@@ -365,6 +399,50 @@ const StakePage = () => {
                             alignItems: "center",
                           }}
                         >
+                                        <input
+              type='text'
+              placeholder='NFT SEARCH..'
+              className='w-9/12 input input-bordered rounded-none mr-6 ml-10 mb-6 mt-6 border-black'
+              onChange={e => setSearch(e.target.value)}
+            />  
+                          {farmerVaultNFTs.length && !isLocked ? (
+                            <Text
+                              sx={{
+                                margin: "1rem 0 2rem 0",
+                              }}
+                              variant="medium"
+                            >
+                              
+                              <b>SELECT NFTs TO MOVE TO WALLET</b>
+                            </Text>
+                          ) : null}
+
+{selectedVaultItems && selectedVaultItems.length ? (
+                            <>
+                            <Text
+                              sx={{
+                                margin: "1rem 0 3rem 0",
+                              }}
+                              variant="medium"
+                            >
+                             <b>Selected:</b>{" "}
+                             </Text>
+                          {selectedVaultItems
+                            .map((NFT) => NFT.onchainMetadata.data.name)
+                            .join(", ")}
+                              {!isLocked ? (
+                                <Button 
+                                backgroundColor="red"
+                          sx={{
+                            margin: "3rem 0 3rem 0",
+                          }}
+                                onClick={handleMoveToWalletButtonClick}>
+                                  Withdraw selected
+                                </Button>
+                              ) : null}
+                            </>
+                          ) : null}
+
                           <div
                             sx={{
                               display: "grid",
@@ -384,7 +462,10 @@ const StakePage = () => {
                               },
                             }}
                           >
-                            {farmerVaultNFTs.map((item) => {
+
+                            {farmerVaultNFTs
+                            .filter((n) => n.externalMetadata.symbol === 'TSHC')
+                            .map((item) => {
                               const isSelected = selectedVaultItems.find(
                                 (NFT) =>
                                   NFT.onchainMetadata.mint ===
@@ -403,9 +484,9 @@ const StakePage = () => {
                                   sx={{
                                     maxWidth: "16rem",
                                     "> img": {
-                                      border: "3px solid transparent",
+                                      border: "9px solid transparent",
                                       borderColor: isSelected
-                                        ? "primary"
+                                        ? "red"
                                         : "transparent",
                                     },
                                   }}
@@ -413,30 +494,8 @@ const StakePage = () => {
                               )
                             })}
                           </div>
-                          {farmerVaultNFTs.length && !isLocked ? (
-                            <Text
-                              sx={{
-                                margin: "3.2rem 0 .8rem 0",
-                              }}
-                              variant="small"
-                            >
-                              Select NFTs to withdraw them to your wallet.
-                            </Text>
-                          ) : null}
 
-                          {selectedVaultItems && selectedVaultItems.length ? (
-                            <>
-                              {/* Selected:{" "}
-                          {selectedVaultItems
-                            .map((NFT) => NFT.onchainMetadata.metaData.data.name)
-                            .join(", ")} */}
-                              {!isLocked ? (
-                                <Button onClick={handleMoveToWalletButtonClick}>
-                                  Withdraw selected
-                                </Button>
-                              ) : null}
-                            </>
-                          ) : null}
+
                         </Flex>
                       ) : (
                         /** vaultNFTs fetched but array is empty, means current wallet has no NFT. */
